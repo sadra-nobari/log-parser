@@ -1,5 +1,7 @@
 import re
+from dataclasses import dataclass
 
+#simple log pattern forchecking malformed lines.
 log_pattern = re.compile(
     r'^(?P<ip>\S+)\s+\S+\s+\S+\s+'
     r'\[(?P<time>[^\]]+)\]\s+'
@@ -10,8 +12,35 @@ log_pattern = re.compile(
     r'"(?P<user_agent>[^"]+)"$'
 )
 
+@dataclass
+class LogEntry:
+    ip: str
+    time: str
+    method: str
+    directory: str
+    protocol: str
+    status: int
+    bytes: int
+    user_agent: str
+
 
 def parser(line):
     match = log_pattern.match(line)
     if not match:
         raise ValueError("Malformed log line")
+    
+    data = match.groupdict()
+    
+
+    log_entry = LogEntry(
+            ip=data["ip"],
+            time=data["time"],
+            method=data["method"],
+            directory=data["directory"],
+            protocol=data["protocol"],
+            status=int(data["status"]),
+            bytes=int(data["bytes"]),
+            user_agent=data["user_agent"]
+        )
+    # if match 
+    print(log_entry)
