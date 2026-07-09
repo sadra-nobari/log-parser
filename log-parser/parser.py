@@ -24,15 +24,16 @@ class LogEntry:
     user_agent: str
 
 
-def parser(line):
+def parser(line: str):
     match = log_pattern.match(line)
     if not match:
         raise ValueError("Malformed log line")
     
     data = match.groupdict()
     
-
-    log_entry = LogEntry(
+    # if match 
+    try:
+        return LogEntry(
             ip=data["ip"],
             time=data["time"],
             method=data["method"],
@@ -42,5 +43,5 @@ def parser(line):
             bytes=int(data["bytes"]),
             user_agent=data["user_agent"]
         )
-    # if match 
-    print(log_entry)
+    except Exception:
+        raise ValueError()

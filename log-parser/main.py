@@ -39,8 +39,8 @@ def main():
                 continue
                 
             try:
-                parser(clean_line)
-                
+                log_entry =parser(clean_line)
+                print(log_entry)
             except ValueError as e:
                 malformed_lines += 1
                 line_number = total_lines
