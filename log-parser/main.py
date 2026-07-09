@@ -33,17 +33,18 @@ def main():
         for line in file:
             total_lines += 1
             clean_line = line.strip()
-            
+
             #if the line is empty, skip it
             if not clean_line:
                 continue
                 
             try:
-                # parser(clean_line)
-                pass
+                parser(clean_line)
                 
-            except Exception:
+            except ValueError as e:
                 malformed_lines += 1
+                line_number = total_lines
+                print(f"Error parsing line: {line_number}")
                 continue
 
     print("--- Processing Completed ---")
