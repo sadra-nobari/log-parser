@@ -1,18 +1,23 @@
 import sys
 from pathlib import Path
+from parser import parser
 
 def main():
     
-
+    total_lines = 0
+    malformed_lines = 0
+    #if inputs are not provided
     if len(sys.argv) < 2:
         print("Usage: python main.py <path_to_log_file>")
         sys.exit(1)
+
+    #if too many inputs are provided
     elif len(sys.argv) > 2:
         print("Error: Too many arguments provided.")
         print("Usage: python main.py <path_to_log_file>")
         sys.exit(1)
-        
-           
+
+
     log_file_path = Path(sys.argv[1])
     
 
@@ -23,7 +28,27 @@ def main():
 
     print(f"Starting to process: {log_file_path.name}...\n")
 
+#reading each line
+    with open(log_file_path, 'r', encoding='utf-8') as file:
+        for line in file:
+            total_lines += 1
+            clean_line = line.strip()
+            
+            #if the line is empty, skip it
+            if not clean_line:
+                continue
+                
+            try:
+                # parser(clean_line)
+                pass
+                
+            except Exception:
+                malformed_lines += 1
+                continue
+
     print("--- Processing Completed ---")
+    print(f"Total lines processed: {total_lines}")
+    print(f"Malformed lines: {malformed_lines}")
 
 
 if __name__ == "__main__":
