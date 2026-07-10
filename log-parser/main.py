@@ -1,4 +1,5 @@
 import sys
+import time
 from pathlib import Path
 from parser import parser
 from statistics import Statistics
@@ -30,6 +31,7 @@ def main():
 
     print(f"Starting to process: {log_file_path.name}...\n")
 
+    start = time.perf_counter()  # Start the timer  
     aggregator = Statistics()  # Create an instance of the Statistics class
 #reading each line
     with open(log_file_path, 'r', encoding='utf-8') as file:
@@ -52,7 +54,9 @@ def main():
 
     print_report(aggregator, malformed_lines)  # Call the print_report function with the aggregator instance
 
-
+    end = time.perf_counter()  # End the timer
+    
+    print(f"\nProcessing completed in {end - start:.2f} seconds.")
 
 
 if __name__ == "__main__":
