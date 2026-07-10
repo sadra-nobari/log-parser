@@ -47,6 +47,8 @@ and then run the program using this command
 ```bash
 python3 log-parser/main.py ["path-to-the-log-file"]
 ```
+---
+
 ## 🧪 How to Test
 
 You can run the entire test suite directly from your terminal without installing any third-party testing frameworks.
@@ -55,6 +57,7 @@ Navigate to the ./log-parser directory and execute:
 ```bash
 python -m unittest discover -s tests
 ```
+---
 
 ## 🛠️ Technical Challenges & Solutions
 
