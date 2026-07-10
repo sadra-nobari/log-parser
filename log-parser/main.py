@@ -1,6 +1,7 @@
 import sys
 from pathlib import Path
 from parser import parser
+from statistics import Statistics
 
 def main():
     
@@ -28,6 +29,8 @@ def main():
 
     print(f"Starting to process: {log_file_path.name}...\n")
 
+
+    aggregator = Statistics()
 #reading each line
     with open(log_file_path, 'r', encoding='utf-8') as file:
         for line in file:
@@ -40,7 +43,8 @@ def main():
                 
             try:
                 log_entry =parser(clean_line)
-                print(log_entry)
+                aggregator.entry_proc(log_entry)
+
             except ValueError as e:
                 malformed_lines += 1
                 line_number = total_lines
@@ -50,6 +54,13 @@ def main():
     print("--- Processing Completed ---")
     print(f"Total lines processed: {total_lines}")
     print(f"Malformed lines: {malformed_lines}")
+    print(f"Total requests: {aggregator.total_requests}")
+    print(f"Total successful requests: {aggregator.total_pass}")
+    print(f"Total error requests: {sum(aggregator.total_errors.values())}")
+    print(f"Total unique IPs: {len(aggregator.ip_counts)}")
+
+    print(aggregator.total_errors)
+    print(aggregator.total_pass)
 
 
 if __name__ == "__main__":
