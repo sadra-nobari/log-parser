@@ -14,6 +14,7 @@
     *   Top 10 highest-traffic endpoints (calculated efficiently via a Min-Heap implementation).
     *   Global error rates (4xx and 5xx status codes).
 *   **Rich Terminal Visuals:** Generates an ASCII-based, self-scaling traffic distribution histogram across a 24-hour cycle to immediately pinpoint peak hours and traffic drops.
+*   **Performance Runtime**: it shows how much time exactly spent on processing log file.
 
 ---
 
