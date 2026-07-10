@@ -2,6 +2,7 @@ import sys
 from pathlib import Path
 from parser import parser
 from statistics import Statistics
+from formatter import print_report
 
 def main():
     
@@ -29,8 +30,7 @@ def main():
 
     print(f"Starting to process: {log_file_path.name}...\n")
 
-
-    aggregator = Statistics()
+    aggregator = Statistics()  # Create an instance of the Statistics class
 #reading each line
     with open(log_file_path, 'r', encoding='utf-8') as file:
         for line in file:
@@ -44,26 +44,26 @@ def main():
             try:
                 log_entry =parser(clean_line)
                 aggregator.entry_proc(log_entry)
-
+                
             except ValueError as e:
                 malformed_lines += 1
                 line_number = total_lines
                 continue
 
-    print("--- Processing Completed ---")
-    print(f"Total lines processed: {total_lines}")
-    print(f"Malformed lines: {malformed_lines}")
-    print(f"Total requests: {aggregator.total_requests}")
-    print(f"Total successful requests: {aggregator.total_pass}")
-    print(f"Total unsuccessful requests: {aggregator.total_errors}")
-    print(f"Total unique IPs: {len(aggregator.ip_counts)}")
-    print(f"Total unique hours: {aggregator.hourly_traffic}")
+    print_report(aggregator)  # Call the print_report function with the aggregator instance
+    # print("--- Processing Completed ---")
+    # print(f"Total lines processed: {total_lines}")
+    # print(f"Malformed lines: {malformed_lines}")
+    # print(f"Total requests: {aggregator.total_requests}")
+    # print(f"Total successful requests: {aggregator.total_pass}")
+    # print(f"Total unsuccessful requests: {aggregator.total_errors}")
+    # print(f"Total unique IPs: {len(aggregator.ip_counts)}")
+    # print(f"Total unique hours: {aggregator.hourly_traffic}")
 
 
-    print ("\nTop 10 IPs by request count:")
+    # print ("\nTop 10 IPs by request count:")
 
-    for ip, count in aggregator.ip_counts.most_common(10):
-        print(f"{ip}: {count} requests")
+
 
 
 if __name__ == "__main__":
