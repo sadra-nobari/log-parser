@@ -16,7 +16,6 @@ def print_report(aggregator: Statistics, malformed_lines: int) -> None:
 
     #basic statistics
     print("\n" + "="*55)
-
     print("FINAL INFRASTRUCTURE ANALYSIS REPORT")
     print("="*55)
     print(f"Total Requests Processed : {total:,}")
@@ -24,7 +23,6 @@ def print_report(aggregator: Statistics, malformed_lines: int) -> None:
     print(f"Unique Client IPs        : {len(ip_counts):,}")
     print(f"Total Error Count        : {sum(total_errors.values()):,}")
     print(f"Overall Error Rate       : {sum(total_errors.values()) / total * 100:.2f}%")
-
     print("-" * 55)
 
     #top ten endpoints
@@ -39,12 +37,15 @@ def print_report(aggregator: Statistics, malformed_lines: int) -> None:
 
     print("24-HOUR TRAFFIC DISTRIBUTION (HISTOGRAM)")
     print(" " + "-"*55)
-    
-    hourly_data = aggregator.get_hourly_report()
-    max_traffic_in_an_hour = max(hourly_data.values())
+    try:
+        hourly_data = aggregator.get_hourly_report()
+        max_traffic_in_an_hour = max(hourly_data.values())
+    except ValueError:
+        #ignoring if time was unusual
+        return
+
 
     max_bar_length = 30
-
     all_hours = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11",
                  "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"]
 
