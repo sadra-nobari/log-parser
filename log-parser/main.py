@@ -48,7 +48,6 @@ def main():
             except ValueError as e:
                 malformed_lines += 1
                 line_number = total_lines
-                print(f"Error parsing line: {line_number}")
                 continue
 
     print("--- Processing Completed ---")
@@ -56,11 +55,14 @@ def main():
     print(f"Malformed lines: {malformed_lines}")
     print(f"Total requests: {aggregator.total_requests}")
     print(f"Total successful requests: {aggregator.total_pass}")
-    print(f"Total error requests: {sum(aggregator.total_errors.values())}")
+    print(f"Total unsuccessful requests: {aggregator.total_errors}")
     print(f"Total unique IPs: {len(aggregator.ip_counts)}")
 
-    print(aggregator.total_errors)
-    print(aggregator.total_pass)
+
+    print ("\nTop 10 IPs by request count:")
+
+    for ip, count in aggregator.ip_counts.most_common(10):
+        print(f"{ip}: {count} requests")
 
 
 if __name__ == "__main__":

@@ -13,9 +13,8 @@ class Statistics:
         self.total_requests += 1
 
         #proccessing status codes
-        if 400 <= entry.status < 500:
+        if entry.status in [400, 401, 403, 404, 500, 502, 503]:
             self.total_errors[entry.status] += 1
-
         else:
             self.total_pass[entry.status] += 1
 
