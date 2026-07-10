@@ -50,18 +50,7 @@ def main():
                 line_number = total_lines
                 continue
 
-    print_report(aggregator)  # Call the print_report function with the aggregator instance
-    # print("--- Processing Completed ---")
-    # print(f"Total lines processed: {total_lines}")
-    # print(f"Malformed lines: {malformed_lines}")
-    # print(f"Total requests: {aggregator.total_requests}")
-    # print(f"Total successful requests: {aggregator.total_pass}")
-    # print(f"Total unsuccessful requests: {aggregator.total_errors}")
-    # print(f"Total unique IPs: {len(aggregator.ip_counts)}")
-    # print(f"Total unique hours: {aggregator.hourly_traffic}")
-
-
-    # print ("\nTop 10 IPs by request count:")
+    print_report(aggregator, malformed_lines)  # Call the print_report function with the aggregator instance
 
 
 

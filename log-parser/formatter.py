@@ -1,6 +1,6 @@
 from statistics import Statistics
 
-def print_report(aggregator: Statistics):
+def print_report(aggregator: Statistics, malformed_lines: int) -> None:
 
     #our data
     total = aggregator.total_requests
@@ -20,8 +20,9 @@ def print_report(aggregator: Statistics):
     print("FINAL INFRASTRUCTURE ANALYSIS REPORT")
     print("="*55)
     print(f"Total Requests Processed : {total:,}")
+    print(f"Malformed Lines          : {malformed_lines:,}")
     print(f"Unique Client IPs        : {len(ip_counts):,}")
-    print(f"Total Error Countes      : {sum(total_errors.values()):,}")
+    print(f"Total Error Count        : {sum(total_errors.values()):,}")
     print(f"Overall Error Rate       : {sum(total_errors.values()) / total * 100:.2f}%")
 
     print("-" * 55)
@@ -48,10 +49,9 @@ def print_report(aggregator: Statistics):
                  "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"]
 
     for hour in all_hours:
-        #
         count = hourly_data.get(hour)
         
-        # محاسبه طول میله متناسب با بیشترین ترافیک ثبت‌شده در ۲۴ ساعت
+        # calculating the bar length
         if count:
             bar_length = int((count / max_traffic_in_an_hour) * max_bar_length)
         else:
@@ -67,6 +67,6 @@ def print_report(aggregator: Statistics):
         # hour formatting
         print(f"  {int(hour):02d}:00 | {bar:<30} | {count:<8,}{peak_tag}")
         
-    # print("="*55 + "\n")
+    print("="*55 + "\n")
 
 
