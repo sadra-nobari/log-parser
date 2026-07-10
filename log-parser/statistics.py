@@ -1,5 +1,8 @@
 from collections import Counter
 from parser import LogEntry
+import re
+
+date_pattern = r'^\d{2}/\w+/\d{4}:(?P<hour>\d{2}):(?P<min>\d{2}):(?P<sec>\d{2}) [+-]\d{4}$'
 
 class Statistics:
     def __init__(self):
@@ -7,7 +10,7 @@ class Statistics:
         self.total_errors = Counter()
         self.total_pass = Counter()
         self.ip_counts = Counter()
-
+        self.hourly_traffic = Counter()
 
     def entry_proc(self, entry: LogEntry):
         self.total_requests += 1
@@ -20,9 +23,18 @@ class Statistics:
 
         #proccessing ip counts
         self.ip_counter(entry.ip)
-
+        self.traffic(entry.time)
 
     def ip_counter(self, ip):
         self.ip_counts[ip]+=1
     
-    
+    def traffic(self, time):
+        #proccessing hourly traffic
+        try:
+            new_time = re.match(date_pattern, time)
+
+            if new_time:
+                hour = new_time.group("hour")
+                self.hourly_traffic[hour] += 1
+        except Exception as e:
+            return ValueError(f"Error processing time: {e}")

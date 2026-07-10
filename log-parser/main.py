@@ -57,6 +57,7 @@ def main():
     print(f"Total successful requests: {aggregator.total_pass}")
     print(f"Total unsuccessful requests: {aggregator.total_errors}")
     print(f"Total unique IPs: {len(aggregator.ip_counts)}")
+    print(f"Total unique hours: {aggregator.hourly_traffic}")
 
 
     print ("\nTop 10 IPs by request count:")
