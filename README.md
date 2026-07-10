@@ -22,7 +22,7 @@
 The project layout adheres strictly to clean code guidelines and separation of concerns:
 
 ```text
-log_analyzer/
+log-parser/
 ├── main.py          # Orchestrator, CLI argument parsing, and streaming file context
 ├── parser.py        # Custom parsing engine, LogEntry dataclass
 ├── statistics.py    # Metric calculation engine (In-memory aggregation via Hash Maps)
@@ -33,7 +33,7 @@ log_analyzer/
 
 ## How to use
 
-fist you need to clone the project and open it on your terminal.
+first you need to clone the project and open it on your terminal.
 
 ```bash
 git clone https://github.com/sadra-nobari/log-parser.git
@@ -45,7 +45,14 @@ cd log-parser
 and then run the program using this command
 
 ```bash
-python3 log-parser/main.py [path-to-the-log-file]
+python3 log-parser/main.py ["path-to-the-log-file"]
 ```
 
 
+## 🛠️ Technical Challenges & Solutions
+
+During development, we encountered a couple of production-level challenges unique to parsing huge, real-world log files. Here is how they were solved:
+
+### 1. The Tokenization Trap with `split(' ')`
+*   **The Challenge:** Web server logs are space-delimited. However, critical fields like the `User-Agent` and `Request Line` containing the HTTP method and path also contain spaces inside their enclosing quotes (e.g., `"Mozilla/5.0 (Windows NT...)"`). A naive `.split(' ')` completely shatters these fields, making data aggregation impossible.
+*   **The Solution:** We designed a precise, **pre-compiled Regular Expression Parser** (`re.compile`) using named capture groups. By defining rigid boundaries for quotes `""` and brackets `[]`, the parser safely isolates fields containing nested spaces in a single pass without breaking the token structure.
