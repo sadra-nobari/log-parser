@@ -9,18 +9,22 @@ CLI tool for parsing and analyzing web server access logs (Combined Log Format).
 - Skips malformed/corrupted lines instead of failing, and reports how many were skipped
 - Metrics: total requests, unique client IPs, top 10 endpoints by traffic, 4xx/5xx error rates
 - ASCII histogram of request volume by hour
+- JSON export (`--json` flag) for machine-readable output
 - Reports total processing time
 
 ## Project Layout
 
 ```text
-log-parser/
+log_parser/
 ├── main.py          # CLI entry point, argument parsing, file streaming
 ├── parser.py         # Log line parser, LogEntry dataclass
 ├── statistics.py      # Metric aggregation
-├── formatter.py       # Terminal output and histogram rendering
+├── formatter.py       # Terminal output, histogram rendering, JSON export
 └── tests/
-    └── test_parser.py # Unit tests
+    ├── test_parser.py      # Unit tests for log parsing
+    ├── test_statistics.py  # Unit tests for statistics aggregation
+    ├── test_formatter.py   # Unit tests for JSON export
+    └── test_main.py        # Unit tests for CLI orchestration
 ```
 
 ## Usage
@@ -28,7 +32,8 @@ log-parser/
 ```bash
 git clone https://github.com/sadra-nobari/log-parser.git
 cd log-parser
-python3 main.py <path-to-log-file>
+python -m log_parser.main <path-to-log-file>
+python -m log_parser.main --json <path-to-log-file>
 ```
 
 ## Testing
@@ -36,7 +41,7 @@ python3 main.py <path-to-log-file>
 No test framework dependencies required.
 
 ```bash
-python -m unittest discover -s tests
+python -m unittest discover -s log_parser/tests
 ```
 
 ## Technical Challenges & Solutions

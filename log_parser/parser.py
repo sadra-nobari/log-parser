@@ -1,7 +1,6 @@
 import re
 from dataclasses import dataclass
 
-# regex for common log format; used to validate and extract fields
 log_pattern = re.compile(
     r"^(?P<ip>\S+)\s+\S+\s+\S+\s+"
     r"\[(?P<time>[^\]]+)\]\s+"
@@ -25,14 +24,13 @@ class LogEntry:
     user_agent: str
 
 
-def parser(line: str):
+def parser(line: str) -> LogEntry:
     match = log_pattern.match(line)
     if not match:
         raise ValueError("Malformed log line")
 
     data = match.groupdict()
 
-    # build LogEntry from regex groups
     try:
         return LogEntry(
             ip=data["ip"],
@@ -44,5 +42,5 @@ def parser(line: str):
             bytes=int(data["bytes"]) if data["bytes"] != "-" else 0,
             user_agent=data["user_agent"],
         )
-    except Exception:
+    except (KeyError, ValueError, TypeError):
         raise ValueError()
