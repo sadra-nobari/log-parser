@@ -10,12 +10,12 @@ def main():
 
     total_lines = 0
     malformed_lines = 0
-    # if inputs are not provided
+    # validate command-line arguments
     if len(sys.argv) < 2:
         print("Usage: python main.py <path_to_log_file>")
         sys.exit(1)
 
-    # if too many inputs are provided
+    # ensure exactly one path argument is provided
     elif len(sys.argv) > 2:
         print("Error: Too many arguments provided.")
         print("Usage: python main.py <path_to_log_file>")
@@ -29,15 +29,16 @@ def main():
 
     print(f"Starting to process: {log_file_path.name}...\n")
 
-    start = time.perf_counter()  # Start the timer
-    aggregator = Statistics()  # Create an instance of the Statistics class
-    # reading each line
+    start = time.perf_counter()
+    aggregator = Statistics()
+
+    # iterate log lines
     with open(log_file_path, "r", encoding="utf-8") as file:
         for line in file:
             total_lines += 1
             clean_line = line.strip()
 
-            # if the line is empty, skip it
+            # skip blank lines
             if not clean_line:
                 continue
 
@@ -50,11 +51,9 @@ def main():
                 line_number = total_lines
                 continue
 
-    print_report(
-        aggregator, malformed_lines
-    )  # Call the print_report function with the aggregator instance
+    print_report(aggregator, malformed_lines)
 
-    end = time.perf_counter()  # End the timer
+    end = time.perf_counter()
 
     print(f"\nProcessing completed in {end - start:.2f} seconds.")
 

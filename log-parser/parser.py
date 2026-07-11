@@ -1,7 +1,7 @@
 import re
 from dataclasses import dataclass
 
-# simple log pattern forchecking malformed lines.
+# regex for common log format; used to validate and extract fields
 log_pattern = re.compile(
     r"^(?P<ip>\S+)\s+\S+\s+\S+\s+"
     r"\[(?P<time>[^\]]+)\]\s+"
@@ -32,7 +32,7 @@ def parser(line: str):
 
     data = match.groupdict()
 
-    # if match
+    # build LogEntry from regex groups
     try:
         return LogEntry(
             ip=data["ip"],

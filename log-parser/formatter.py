@@ -3,7 +3,6 @@ from statistics import Statistics
 
 def print_report(aggregator: Statistics, malformed_lines: int) -> None:
 
-    # our data
     total = aggregator.total_requests
     total_errors = aggregator.total_errors
     total_pass = aggregator.total_pass
@@ -14,7 +13,7 @@ def print_report(aggregator: Statistics, malformed_lines: int) -> None:
         print("\nNo data was processed. Check your log file.")
         return
 
-    # basic statistics
+    # print summary statistics
     print("\n" + "=" * 55)
     print("FINAL INFRASTRUCTURE ANALYSIS REPORT")
     print("=" * 55)
@@ -25,7 +24,7 @@ def print_report(aggregator: Statistics, malformed_lines: int) -> None:
     print(f"Overall Error Rate       : {sum(total_errors.values()) / total * 100:.2f}%")
     print("-" * 55)
 
-    # top ten endpoints
+    # print top endpoints by request count
     print(" TOP 10 ENDPOINTS")
     print(f" {'Endpoint':<40} | {'Requests':<10}")
     print(" " + "-" * 52)
@@ -33,7 +32,7 @@ def print_report(aggregator: Statistics, malformed_lines: int) -> None:
         print(f"  {endpoint:<39} | {count:<10,}")
     print("-" * 55)
 
-    # top ten client IPs
+    # print top client IPs by request count
     print(" TOP 10 CLIENT IPS")
     print(f" {'IP Address':<40} | {'Requests':<10}")
     print(" " + "-" * 52)
@@ -41,7 +40,7 @@ def print_report(aggregator: Statistics, malformed_lines: int) -> None:
         print(f"  {ip:<39} | {count:<10,}")
     print("-" * 55)
 
-    # hourly traffic histogram
+    # build and print 24-hour histogram
 
     print("24-HOUR TRAFFIC DISTRIBUTION (HISTOGRAM)")
     print(" " + "-" * 55)
@@ -49,7 +48,7 @@ def print_report(aggregator: Statistics, malformed_lines: int) -> None:
         hourly_data = aggregator.get_hourly_report()
         max_traffic_in_an_hour = max(hourly_data.values())
     except ValueError:
-        # ignoring if time was unusual
+        # abort histogram if no valid hourly data
         return
 
     max_bar_length = 30
@@ -83,20 +82,18 @@ def print_report(aggregator: Statistics, malformed_lines: int) -> None:
     for hour in all_hours:
         count = hourly_data.get(hour)
 
-        # calculating the bar length
+        # scale bar length relative to peak hour
         if count:
             bar_length = int((count / max_traffic_in_an_hour) * max_bar_length)
         else:
             continue
-            # bar_length = 0
-            # count = 0
 
         bar = "█" * bar_length
 
-        # tag for peak traffic hours
+        # mark the peak hour
         peak_tag = " [PEAK]" if count == max_traffic_in_an_hour and count > 0 else ""
 
-        # hour formatting
+        # print hour row
         print(f"  {int(hour):02d}:00 | {bar:<30} | {count:<8,}{peak_tag}")
 
     print("=" * 55 + "\n")

@@ -19,13 +19,13 @@ class Statistics:
     def entry_proc(self, entry: LogEntry) -> None:
         self.total_requests += 1
 
-        # processing status codes
+        # count errors (4xx/5xx) vs successful/other statuses
         if 400 <= entry.status < 600:
             self.total_errors[entry.status] += 1
         else:
             self.total_pass[entry.status] += 1
 
-        # processing ip and endpoint counts
+        # update counters for IPs, endpoints, and hourly traffic
         self.ip_counter(entry.ip)
         self.endpoint_counter(entry.directory)
         self.traffic(entry.time)
@@ -37,7 +37,7 @@ class Statistics:
         self.endpoint_counts[endpoint] += 1
 
     def traffic(self, time: str) -> None:
-        # processing hourly traffic
+        # extract hour from timestamp and count
         try:
             new_time = date_pattern.match(time)
 

@@ -10,7 +10,6 @@ class TestLogParser(unittest.TestCase):
         valid_line = '171.90.27.4 - - [01/Jun/2026:00:00:00 +0000] "GET / HTTP/1.1" 301 8973 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"'
         result = parser(valid_line)
 
-        # simple test
         self.assertIsInstance(result, LogEntry)
         self.assertEqual(result.ip, "171.90.27.4")
         self.assertEqual(result.method, "GET")
@@ -47,7 +46,7 @@ class TestStatistics(unittest.TestCase):
             protocol="HTTP/1.1",
             status=200,
             bytes=1024,
-            user_agent="Mozilla"
+            user_agent="Mozilla",
         )
         entry2 = LogEntry(
             ip="192.168.1.1",
@@ -57,7 +56,7 @@ class TestStatistics(unittest.TestCase):
             protocol="HTTP/1.1",
             status=404,
             bytes=512,
-            user_agent="Mozilla"
+            user_agent="Mozilla",
         )
         entry3 = LogEntry(
             ip="10.0.0.1",
@@ -67,7 +66,7 @@ class TestStatistics(unittest.TestCase):
             protocol="HTTP/1.1",
             status=500,
             bytes=256,
-            user_agent="Mozilla"
+            user_agent="Mozilla",
         )
 
         stats.entry_proc(entry1)
