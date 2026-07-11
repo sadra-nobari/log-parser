@@ -29,7 +29,9 @@ class TestLogParser(unittest.TestCase):
         self.assertEqual(result.bytes, 0)
 
     def test_parse_missing_user_agent(self):
-        bad_line = '171.90.27.4 - - [01/Jun/2026:00:00:00 +0000] "GET / HTTP/1.1" 200 1234 "-"'
+        bad_line = (
+            '171.90.27.4 - - [01/Jun/2026:00:00:00 +0000] "GET / HTTP/1.1" 200 1234 "-"'
+        )
         with self.assertRaises(ValueError):
             parser(bad_line)
 

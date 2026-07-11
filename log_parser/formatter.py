@@ -47,9 +47,30 @@ def print_report(aggregator: Statistics, malformed_lines: int) -> None:
 
     max_bar_length = 30
     all_hours = [
-        "00", "01", "02", "03", "04", "05", "06", "07", "08", "09",
-        "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
-        "20", "21", "22", "23",
+        "00",
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08",
+        "09",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
     ]
 
     for hour in all_hours:
@@ -78,13 +99,9 @@ def export_json(aggregator: Statistics, malformed_lines: int) -> str:
         "total_errors": total_errors,
         "error_rate": round(error_rate, 2),
         "top_endpoints": [
-            {"endpoint": ep, "count": c}
-            for ep, c in aggregator.get_top_endpoints(10)
+            {"endpoint": ep, "count": c} for ep, c in aggregator.get_top_endpoints(10)
         ],
-        "top_ips": [
-            {"ip": ip, "count": c}
-            for ip, c in aggregator.get_top_ips(10)
-        ],
+        "top_ips": [{"ip": ip, "count": c} for ip, c in aggregator.get_top_ips(10)],
         "hourly_traffic": {
             hour: aggregator.hourly_traffic.get(hour, 0)
             for hour in [f"{h:02d}" for h in range(24)]

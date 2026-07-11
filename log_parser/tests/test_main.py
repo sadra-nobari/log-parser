@@ -9,7 +9,9 @@ from main import main
 class TestMain(unittest.TestCase):
 
     def setUp(self):
-        self.test_log = Path(__file__).resolve().parent.parent.parent / "access.log" / "test.log"
+        self.test_log = (
+            Path(__file__).resolve().parent.parent.parent / "access.log" / "test.log"
+        )
 
     @patch("builtins.print")
     def test_main_no_args(self, mock_print):
@@ -28,7 +30,9 @@ class TestMain(unittest.TestCase):
         with patch.object(sys, "argv", ["main.py", "--json", str(self.test_log)]):
             main()
             args_list = [c[0][0] for c in mock_print.call_args_list]
-            json_output = next((a for a in args_list if a.strip().startswith("{")), None)
+            json_output = next(
+                (a for a in args_list if a.strip().startswith("{")), None
+            )
             self.assertIsNotNone(json_output)
             data = json.loads(json_output)
             self.assertIn("total_requests", data)

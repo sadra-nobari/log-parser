@@ -76,7 +76,9 @@ class TestStatistics(unittest.TestCase):
         total_errors = sum(self.stats.total_errors.values())
         self.assertEqual(total_errors, 2)
         self.assertEqual(self.stats.total_requests, 3)
-        self.assertAlmostEqual(total_errors / self.stats.total_requests * 100, 66.666, places=2)
+        self.assertAlmostEqual(
+            total_errors / self.stats.total_requests * 100, 66.666, places=2
+        )
 
 
 if __name__ == "__main__":

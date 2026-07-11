@@ -9,26 +9,30 @@ class TestFormatter(unittest.TestCase):
 
     def setUp(self):
         self.stats = Statistics()
-        self.stats.entry_proc(LogEntry(
-            ip="192.168.1.1",
-            time="01/Jun/2026:14:05:30 +0000",
-            method="GET",
-            directory="/index",
-            protocol="HTTP/1.1",
-            status=200,
-            bytes=1024,
-            user_agent="Mozilla",
-        ))
-        self.stats.entry_proc(LogEntry(
-            ip="10.0.0.1",
-            time="01/Jun/2026:15:20:00 +0000",
-            method="POST",
-            directory="/index",
-            protocol="HTTP/1.1",
-            status=500,
-            bytes=256,
-            user_agent="curl/8.4.0",
-        ))
+        self.stats.entry_proc(
+            LogEntry(
+                ip="192.168.1.1",
+                time="01/Jun/2026:14:05:30 +0000",
+                method="GET",
+                directory="/index",
+                protocol="HTTP/1.1",
+                status=200,
+                bytes=1024,
+                user_agent="Mozilla",
+            )
+        )
+        self.stats.entry_proc(
+            LogEntry(
+                ip="10.0.0.1",
+                time="01/Jun/2026:15:20:00 +0000",
+                method="POST",
+                directory="/index",
+                protocol="HTTP/1.1",
+                status=500,
+                bytes=256,
+                user_agent="curl/8.4.0",
+            )
+        )
 
     def test_export_json_structure(self):
         result = json.loads(export_json(self.stats, 2))
