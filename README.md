@@ -32,8 +32,8 @@ log_parser/
 ```bash
 git clone https://github.com/sadra-nobari/log-parser.git
 cd log-parser
-python -m log_parser.main <path-to-log-file>
-python -m log_parser.main --json <path-to-log-file>
+python main <path-to-log-file>
+python main --json <path-to-log-file>
 ```
 
 ## Testing
