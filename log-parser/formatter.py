@@ -33,6 +33,14 @@ def print_report(aggregator: Statistics, malformed_lines: int) -> None:
         print(f"  {endpoint:<39} | {count:<10,}")
     print("-" * 55)
 
+    # top ten client IPs
+    print(" TOP 10 CLIENT IPS")
+    print(f" {'IP Address':<40} | {'Requests':<10}")
+    print(" " + "-" * 52)
+    for ip, count in aggregator.get_top_ips(limit=10):
+        print(f"  {ip:<39} | {count:<10,}")
+    print("-" * 55)
+
     # hourly traffic histogram
 
     print("24-HOUR TRAFFIC DISTRIBUTION (HISTOGRAM)")

@@ -7,7 +7,7 @@ log_pattern = re.compile(
     r"\[(?P<time>[^\]]+)\]\s+"
     r'"(?P<method>\S+)\s+(?P<directory>\S+)\s+(?P<protocol>[^"]+)"\s+'
     r"(?P<status>\d+)\s+"
-    r"(?P<bytes>\d+)\s+"
+    r"(?P<bytes>\d+|-)\s+"
     r'"[^"]*"\s+'
     r'"(?P<user_agent>[^"]+)"$'
 )
@@ -41,7 +41,7 @@ def parser(line: str):
             directory=data["directory"],
             protocol=data["protocol"],
             status=int(data["status"]),
-            bytes=int(data["bytes"]),
+            bytes=int(data["bytes"]) if data["bytes"] != "-" else 0,
             user_agent=data["user_agent"],
         )
     except Exception:
