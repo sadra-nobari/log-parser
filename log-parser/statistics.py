@@ -2,7 +2,10 @@ from collections import Counter
 from parser import LogEntry
 import re
 
-date_pattern = r'^\d{2}/\w+/\d{4}:(?P<hour>\d{2}):(?P<min>\d{2}):(?P<sec>\d{2}) [+-]\d{4}$'
+date_pattern = (
+    r"^\d{2}/\w+/\d{4}:(?P<hour>\d{2}):(?P<min>\d{2}):(?P<sec>\d{2}) [+-]\d{4}$"
+)
+
 
 class Statistics:
     def __init__(self):
@@ -15,21 +18,21 @@ class Statistics:
     def entry_proc(self, entry: LogEntry) -> None:
         self.total_requests += 1
 
-        #proccessing status codes
+        # proccessing status codes
         if entry.status in [400, 401, 403, 404, 500, 502, 503]:
             self.total_errors[entry.status] += 1
         else:
             self.total_pass[entry.status] += 1
 
-        #proccessing ip counts
+        # proccessing ip counts
         self.ip_counter(entry.ip)
         self.traffic(entry.time)
 
     def ip_counter(self, ip: str) -> None:
         self.ip_counts[ip] += 1
-    
+
     def traffic(self, time: str) -> None:
-        #proccessing hourly traffic
+        # proccessing hourly traffic
         try:
             new_time = re.match(date_pattern, time)
 

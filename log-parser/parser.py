@@ -1,16 +1,17 @@
 import re
 from dataclasses import dataclass
 
-#simple log pattern forchecking malformed lines.
+# simple log pattern forchecking malformed lines.
 log_pattern = re.compile(
-    r'^(?P<ip>\S+)\s+\S+\s+\S+\s+'
-    r'\[(?P<time>[^\]]+)\]\s+'
+    r"^(?P<ip>\S+)\s+\S+\s+\S+\s+"
+    r"\[(?P<time>[^\]]+)\]\s+"
     r'"(?P<method>\S+)\s+(?P<directory>\S+)\s+(?P<protocol>[^"]+)"\s+'
-    r'(?P<status>\d+)\s+'
-    r'(?P<bytes>\d+)\s+'
+    r"(?P<status>\d+)\s+"
+    r"(?P<bytes>\d+)\s+"
     r'"[^"]*"\s+'
     r'"(?P<user_agent>[^"]+)"$'
 )
+
 
 @dataclass
 class LogEntry:
@@ -28,10 +29,10 @@ def parser(line: str):
     match = log_pattern.match(line)
     if not match:
         raise ValueError("Malformed log line")
-    
+
     data = match.groupdict()
-    
-    # if match 
+
+    # if match
     try:
         return LogEntry(
             ip=data["ip"],
@@ -41,7 +42,7 @@ def parser(line: str):
             protocol=data["protocol"],
             status=int(data["status"]),
             bytes=int(data["bytes"]),
-            user_agent=data["user_agent"]
+            user_agent=data["user_agent"],
         )
     except Exception:
         raise ValueError()
