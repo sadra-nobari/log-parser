@@ -3,7 +3,7 @@ import sys
 import unittest
 from pathlib import Path
 from unittest.mock import patch
-from log_parser.main import main
+from main import main
 
 
 class TestMain(unittest.TestCase):

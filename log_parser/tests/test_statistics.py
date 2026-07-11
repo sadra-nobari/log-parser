@@ -1,6 +1,6 @@
 import unittest
-from log_parser.parser import LogEntry
-from log_parser.statistics import Statistics
+from parser import LogEntry
+from statistics import Statistics
 
 
 class TestStatistics(unittest.TestCase):

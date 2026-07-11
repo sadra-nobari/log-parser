@@ -1,5 +1,5 @@
 import unittest
-from log_parser.parser import parser, LogEntry
+from parser import parser, LogEntry
 
 
 class TestLogParser(unittest.TestCase):

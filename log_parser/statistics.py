@@ -1,5 +1,5 @@
 from collections import Counter
-from log_parser.parser import LogEntry
+from parser import LogEntry
 import re
 from typing import Counter as CounterType
 

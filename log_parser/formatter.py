@@ -1,5 +1,5 @@
 import json
-from log_parser.statistics import Statistics
+from statistics import Statistics
 
 
 def print_report(aggregator: Statistics, malformed_lines: int) -> None:

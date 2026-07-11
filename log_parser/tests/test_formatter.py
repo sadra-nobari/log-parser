@@ -1,8 +1,8 @@
 import json
 import unittest
-from log_parser.parser import LogEntry
-from log_parser.statistics import Statistics
-from log_parser.formatter import export_json
+from parser import LogEntry
+from statistics import Statistics
+from formatter import export_json
 
 
 class TestFormatter(unittest.TestCase):

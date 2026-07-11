@@ -1,9 +1,9 @@
 import sys
 import time
 from pathlib import Path
-from log_parser.parser import parser
-from log_parser.statistics import Statistics
-from log_parser.formatter import print_report, export_json
+from parser import parser
+from statistics import Statistics
+from formatter import print_report, export_json
 
 
 def main() -> None:
