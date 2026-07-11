@@ -1,66 +1,45 @@
-# Log-Parser tool using CLI
+# Log-Parser
 
-`Log-Parser` is a production-grade, zero-dependency command-line interface (CLI) tool designed to process and analyze massive web server access logs (Combined Log Format) efficiently. Built with memory-safety in mind, it utilizes a custom-built streaming architecture to parse gigabytes of log data line-by-line without overloading system memory.
+CLI tool for parsing and analyzing web server access logs (Combined Log Format). No third-party dependencies. Streams input line-by-line so memory usage stays flat regardless of file size.
 
----
+## Features
 
-## ✨ Features
+- Streaming line-by-line parser, constant memory usage independent of file size
+- Regex-based parser (pre-compiled, named capture groups), no external parsing libraries
+- Skips malformed/corrupted lines instead of failing, and reports how many were skipped
+- Metrics: total requests, unique client IPs, top 10 endpoints by traffic, 4xx/5xx error rates
+- ASCII histogram of request volume by hour
+- Reports total processing time
 
-*   **Memory-Efficient Streaming:** Reads and aggregates logs line-by-line. Memory footprint remains completely stable ($O(1)$ Space Complexity) whether processing a 10MB or 100GB file.
-*   **Zero-Dependency Custom Parser:** No third-party parsing engines. Implements a high-performance, pre-compiled regular expression parser designed to handle "dirty" or interrupted real-world production logs seamlessly.
-*   **Resilient Fault-Tolerance:** Malformed, corrupted, or incomplete lines are automatically skipped and counted without interrupting the core execution flow.
-*   **Insightful Metrics Reporting:**
-    *   Total requests & unique client IP counting.
-    *   Top 10 highest-traffic endpoints (calculated efficiently via a Min-Heap implementation).
-    *   Global error rates (4xx and 5xx status codes).
-*   **Rich Terminal Visuals:** Generates an ASCII-based, self-scaling traffic distribution histogram across a 24-hour cycle to immediately pinpoint peak hours and traffic drops.
-*   **Performance Runtime**: it shows how much time exactly spent on processing log file.
-
----
-
-## 🏗️ Architecture & Data Flow
-
-The project layout adheres strictly to clean code guidelines and separation of concerns:
+## Project Layout
 
 ```text
 log-parser/
-├── main.py          # Orchestrator, CLI argument parsing, and streaming file context
-├── parser.py        # Custom parsing engine, LogEntry dataclass
-├── statistics.py    # Metric calculation engine (In-memory aggregation via Hash Maps)
-├── formatter.py     # Terminal visual rendering and ASCII Histogram layout
+├── main.py          # CLI entry point, argument parsing, file streaming
+├── parser.py         # Log line parser, LogEntry dataclass
+├── statistics.py      # Metric aggregation
+├── formatter.py       # Terminal output and histogram rendering
 └── tests/
-    └── test_parser.py # Isolated unit tests for edge-case inputs
+    └── test_parser.py # Unit tests
 ```
 
-## How to use
-
-first you need to clone the project and open it on your terminal.
+## Usage
 
 ```bash
 git clone https://github.com/sadra-nobari/log-parser.git
-```
-```bash
 cd log-parser
+python3 main.py <path-to-log-file>
 ```
 
-and then run the program using this command
+## Testing
 
-```bash
-python3 log-parser/main.py ["path-to-the-log-file"]
-```
----
+No test framework dependencies required.
 
-## 🧪 How to Test
-
-You can run the entire test suite directly from your terminal without installing any third-party testing frameworks.
-
-Navigate to the ./log-parser directory and execute:
 ```bash
 python -m unittest discover -s tests
 ```
----
 
-## 🛠️ Technical Challenges & Solutions
+## Technical Challenges & Solutions
 
 During development, we encountered a couple of production-level challenges unique to parsing huge, real-world log files. Here is how they were solved:
 
